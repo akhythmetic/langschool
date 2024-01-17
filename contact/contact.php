@@ -57,7 +57,7 @@
     </section>
 
     <footer>
-        <a href="../index.html">Retour à la page d'accueil</a>
+        <a href="../index.php">Retour à la page d'accueil</a>
     </footer>
 
 </body>
