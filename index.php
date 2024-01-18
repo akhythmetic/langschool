@@ -16,9 +16,16 @@ include 'bd.php';
 //se connecter à la bd
 $bdd = getBD();
 //recupérer data articles
-$rep = $bdd->query('SELECT * FROM articles;');
+try {
+    $rep = $bdd->query('SELECT * FROM articles;');
+}
+catch (PDOException $e) {
+    // Handle database query error
+    die("Database error: " . $e->getMessage());
+}
 ?>
     <header>
+        <a id="top-right-link" href="session/nouveau.php">Nouveau Client</a>
         <img src="images/langue.png" alt="Logo LangSchool" width="75">
         <h1>LangSchool - Cours de Langue</h1>
     </header>

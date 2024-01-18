@@ -15,7 +15,13 @@
         $id=1;
     }//par def $id=1
     //recupérer data articles
-    $rep = $bdd->query('SELECT * FROM articles WHERE id = '.$id.';');
+    try {
+        $rep = $bdd->query('SELECT * FROM articles WHERE id = '.$id.';');
+    } 
+    catch (PDOException $e) {
+        // Handle database query error
+        die("Database error: " . $e->getMessage());
+    }
     $ligne = $rep ->fetch();
     $path_img=$ligne['path_img'];
     $nom=$ligne['nom'];
@@ -33,7 +39,7 @@
 <body>
     <header>
         <a href="../index.php"><img src="../images/langue.png" alt="Logo LangSchool" width="75"></a>
-        <h2>Cours de <?php echo $nom; ?><section>
+        <h2>Cours de <?php echo $nom; ?></h2>
         <img src=<?php echo "../".$path_img; ?> alt=<?php echo $nom; ?> width="100">
     </header>
         
@@ -58,7 +64,7 @@
 
 </body>
 <footer>
-        <a href="../index.php">retour</a>
+        <a href="../index.php">Acceuil</a>
 </footer>
 
 

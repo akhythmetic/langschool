@@ -11,6 +11,7 @@ header {
     color: #fff;
     padding: 10px;
     text-align: center;
+    position: relative;
 }
 
 /* Styles de la section principale */
@@ -44,4 +45,47 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+}
+
+#top-right-link {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+}
+/* Styles du formulaire */
+form {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Styles des labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Styles des champs de saisie */
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+/* Styles du bouton de soumission */
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Styles des messages d'erreur (optionnel) */
+.error-message {
+    color: red;
+    margin-top: 5px;
 }
