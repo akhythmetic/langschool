@@ -14,13 +14,27 @@
     else{
         $id=1;
     }//par def $id=1
+    //##############################
+    //patch SQLi Prepared Statements
+    $resultats = $bdd->query('SELECT id FROM articles');
+    $liste_ids = $resultats->fetchAll(PDO::FETCH_COLUMN);
+    $resultats->closeCursor();
+    $flag=false;
+    $i=count($liste_ids) -1;
+    $q=$liste_ids[$i];
+    while(!$flag && $i>=0){//ceci est un boucle de vérification de la varible $_GET['id']
+        $q=$liste_ids[$i];//la variable $q a pour valeur l'id qui sera placer dans la requette sql afin d'eviter les SQLi
+        $flag=($q==$id);
+        $i--;
+    } 
+    //##############################
     //recupérer data articles
     try {
-        $rep = $bdd->query('SELECT * FROM articles WHERE id = '.$id.';');
+        $rep = $bdd->query('SELECT * FROM articles WHERE id = '.$q.';');
     } 
     catch (PDOException $e) {
         // Handle database query error
-        die("Database error: " . $e->getMessage());
+        die('Une erreur est survenue. Veuillez réessayer plus tard.');
     }
     $ligne = $rep ->fetch();
     $path_img=$ligne['path_img'];

@@ -21,7 +21,7 @@ try {
 }
 catch (PDOException $e) {
     // Handle database query error
-    die("Database error: " . $e->getMessage());
+    die('Une erreur est survenue. Veuillez réessayer plus tard.');
 }
 ?>
     <header>

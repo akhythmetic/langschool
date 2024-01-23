@@ -10,25 +10,33 @@
 
     <?php
     //#############################################################################################################
-    function enregistrer($n,$p,$adr,$num,$mail,$mdp){
+    function enregistrer($nom, $prenom, $adresse, $numero, $mail, $mdp) {//patch SQLi Input Validation
         /*
-        Role : enregistre la data de l'utilisateur dans la base de donnée
-        Entrée : des chaines de charactere correspondant à l'entré de l'utilisateur
-        Sortie : aucun
-         */
-        //importer le fichier php qui contient la fonction pour se connecter à la bd
+        Rôle : Enregistre les données de l'utilisateur dans la base de données.
+        Entrées : Chaînes de caractères correspondant aux saisies de l'utilisateur.
+        Sortie : Aucune.
+        */
+    
+        // Inclure le fichier PHP contenant la fonction de connexion à la BD.
         include '../bd.php';
-        //se connecter à la bd
+    
+        // Se connecter à la BD.
         $bdd = getBD();
-        //envoyer la requette
+    
+        // Préparer la requête SQL avec des paramètres.
+        $query = $bdd->prepare("INSERT INTO Clients (nom, prenom, adresse, numero, mail, mdp) VALUES (?, ?, ?, ?, ?, ?)");
+    
+        // Exécuter la requête avec les paramètres sécurisés.
         try {
-            $rep = $bdd->query("INSERT INTO Clients (nom, prenom, adresse, numero, mail, mdp) VALUES ('".$n."', '".$p."', '".$adr."', '".$num."', '".$mail."', '".$mdp."');");
-        }
-        catch (PDOException $e) {
-            // Handle database query error
-            die("Database error: " . $e->getMessage());
+            $query->execute([$nom, $prenom, $adresse, $numero, $mail, $mdp]);
+        } catch (PDOException $e) {
+            // Gérer l'erreur de requête de la base de données.
+            die('Une erreur est survenue. Veuillez réessayer plus tard.');
         }
     }
+    
+    //#############################################################################################################
+
     /*###################################
     on verifie si tous l'une des variables est vide ou que mdp1 et mdp2 soit différent.
     si vrai : redirection vers "nouveau.php"
@@ -40,6 +48,7 @@
     if(isset($_POST['n']) && isset($_POST['p']) && isset($_POST['adr']) && isset($_POST['num']) && isset($_POST['mail']) && isset($_POST['mdp1']) && isset($_POST['mdp2'])){
         $flag_mdp=($_POST['mdp1']==$_POST['mdp2']);// drapeau vrai pour mdp1 et mdp2 identique
         if($_POST['n']!="" && $_POST['p']!="" && $_POST['adr']!="" && $_POST['num']!="" && $_POST['mail']!="" && $_POST['mdp1']!="" && $_POST['mdp2']!="" && $flag_mdp){
+            
             enregistrer($_POST['n'],$_POST['p'],$_POST['adr'],$_POST['num'],$_POST['mail'],$_POST['mdp1']);//fonction créé plus haut
             echo $redirind;
         }
