@@ -81,7 +81,7 @@
 
 </body>
 <footer>
-        <a href="../index.php">Acceuil</a>
+        <a href="../index.php">Accueil</a>
 </footer>
 
 

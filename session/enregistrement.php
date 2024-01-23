@@ -48,8 +48,8 @@
     if(isset($_POST['n']) && isset($_POST['p']) && isset($_POST['adr']) && isset($_POST['num']) && isset($_POST['mail']) && isset($_POST['mdp1']) && isset($_POST['mdp2'])){
         $flag_mdp=($_POST['mdp1']==$_POST['mdp2']);// drapeau vrai pour mdp1 et mdp2 identique
         if($_POST['n']!="" && $_POST['p']!="" && $_POST['adr']!="" && $_POST['num']!="" && $_POST['mail']!="" && $_POST['mdp1']!="" && $_POST['mdp2']!="" && $flag_mdp){
-            
-            enregistrer($_POST['n'],$_POST['p'],$_POST['adr'],$_POST['num'],$_POST['mail'],$_POST['mdp1']);//fonction créé plus haut
+            $mdp_hashe = password_hash($_POST['mdp1'], PASSWORD_DEFAULT);
+            enregistrer($_POST['n'], $_POST['p'], $_POST['adr'], $_POST['num'], $_POST['mail'], $mdp_hashe);
             echo $redirind;
         }
         else{
@@ -69,7 +69,6 @@
     </header>
 </body>
 <footer>
-        <a href="../index.php">Acceuil</a>
 </footer>
 
 
