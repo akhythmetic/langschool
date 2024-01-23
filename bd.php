@@ -15,7 +15,7 @@ function getBD() {
         return $bdd;
     } catch (PDOException $e) {
         // Gérer l'erreur de connexion de la base de données
-        die('Erreur de connexion à la base de données : ' . $e->getMessage());
+        die('Erreur ');
     }
 }
 ?>

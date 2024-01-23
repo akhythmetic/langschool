@@ -25,7 +25,10 @@ catch (PDOException $e) {
 }
 ?>
     <header>
-        <a id="top-right-link" href="session/nouveau.php">Nouveau Client</a>
+        <div class="top-right-links">
+            <a class="top-right-link" href="session/nouveau.php">Nouveau Client</a>
+            <a class="top-right-link" href="session/connexion.php">Se Connecter</a>
+        </div>
         <img src="images/langue.png" alt="Logo LangSchool" width="75">
         <h1>LangSchool - Cours de Langue</h1>
     </header>

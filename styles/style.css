@@ -47,11 +47,19 @@ footer {
     width: 100%;
 }
 
-#top-right-link {
-    position: absolute;
-    top: 10px; 
-    right: 10px; 
+.top-right-links {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    text-align: right; /* Pour aligner le texte à droite dans le conteneur */
 }
+
+.top-right-link {
+    display: block;
+    margin-bottom: 10px; /* Espace entre les liens */
+}
+
+
 /* Styles du formulaire */
 form {
     background-color: #fff;

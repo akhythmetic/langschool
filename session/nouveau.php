@@ -19,6 +19,10 @@
     /*###########################################################################
     ce code php permet de remettre les données déjà saisies par l'utilisateur lors d'une redirection vers le formulaire
      */
+    $err= "<p class=error-message>Inscription incomplète ! Veuillez remplir tous les champs. Assurez-vous que votre adresse e-mail est correctement saisie, et que les champs 'mot de passe' et 'confirmation de mot de passe' sont identiques.</p>";
+    if(isset($_GET['flag_mail'])){
+        $err=$err."</br>\n <p class=error-message>L'adresse e-mail est déjà utilisée dans nos services. Veuillez utiliser une adresse différente.</p>";
+    }
     $value="value=";
     $n="";
     $p="";
@@ -26,6 +30,7 @@
     $num="";
     $mail="";
     if(isset($_GET['n'])){
+        echo $err;
         if($_GET['n']!=""){
             $n=$value.$_GET['n'];
         }

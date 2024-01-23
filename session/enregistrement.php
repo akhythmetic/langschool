@@ -10,6 +10,7 @@
 
     <?php
     //#############################################################################################################
+    include '../bd.php';
     function enregistrer($nom, $prenom, $adresse, $numero, $mail, $mdp) {//patch SQLi Input Validation
         /*
         Rôle : Enregistre les données de l'utilisateur dans la base de données.
@@ -17,8 +18,6 @@
         Sortie : Aucune.
         */
     
-        // Inclure le fichier PHP contenant la fonction de connexion à la BD.
-        include '../bd.php';
     
         // Se connecter à la BD.
         $bdd = getBD();
@@ -38,19 +37,39 @@
     //#############################################################################################################
 
     /*###################################
-    on verifie si tous l'une des variables est vide ou que mdp1 et mdp2 soit différent.
+    on verifie que tous les variables soient bien rempli, que les deux mdp soient identique et que l'email n'est pas deja dans la bd.
     si vrai : redirection vers "nouveau.php"
     si faux : redirection vers "index.php"
      */
+    
     $redirind="<meta http-equiv='refresh' content='1;url=../index.php'>"; //balise de redirection vers index
     $redirnou="<meta http-equiv='refresh' content='1;url=nouveau.php'>"; //balise de redirection vers nouveau
     $redirnouD="<meta http-equiv='refresh' content='1;url=nouveau.php?"; //balise de redirection vers nouveau sans la fin pour ajouter la donnée de l'utilisateur ultérieurement
     if(isset($_POST['n']) && isset($_POST['p']) && isset($_POST['adr']) && isset($_POST['num']) && isset($_POST['mail']) && isset($_POST['mdp1']) && isset($_POST['mdp2'])){
         $flag_mdp=($_POST['mdp1']==$_POST['mdp2']);// drapeau vrai pour mdp1 et mdp2 identique
         if($_POST['n']!="" && $_POST['p']!="" && $_POST['adr']!="" && $_POST['num']!="" && $_POST['mail']!="" && $_POST['mdp1']!="" && $_POST['mdp2']!="" && $flag_mdp){
+            //verification mail dans bd
+            $bdd = getBD();        
+            try {
+                $rep = $bdd->query('SELECT mail FROM clients');
+            }
+            catch (PDOException $e) {
+                // Handle database query error
+                die('Une erreur est survenue. Veuillez réessayer plus tard.');
+            }
+            $flag_mail = true; // reste vrai tant que le mail est unique
+            while (($ligne = $rep->fetch()) && $flag_mail) {
+                $flag_mail = ($ligne['mail'] !== $_POST['mail']);
+            }
+            $rep->closeCursor();
+            if($flag_mail){
             $mdp_hashe = password_hash($_POST['mdp1'], PASSWORD_DEFAULT);
             enregistrer($_POST['n'], $_POST['p'], $_POST['adr'], $_POST['num'], $_POST['mail'], $mdp_hashe);
             echo $redirind;
+            }
+            else{
+                echo $redirnouD."n=".$_POST['n']."&"."p=".$_POST['p']."&"."adr=".$_POST['adr']."&"."num=".$_POST['num']."&"."mail=".$_POST['mail']."&"."flag_mail=pop'>";
+            }
         }
         else{
             echo $redirnouD."n=".$_POST['n']."&"."p=".$_POST['p']."&"."adr=".$_POST['adr']."&"."num=".$_POST['num']."&"."mail=".$_POST['mail']."'>";
